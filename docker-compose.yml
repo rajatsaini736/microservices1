@@ -1,0 +1,19 @@
+version: '3.4'
+
+services:
+  books:
+    image: books
+    build:
+      context: books
+      dockerfile: ./Dockerfile
+    environment:
+      NODE_ENV: production
+    ports:
+      - 8000:8000
+    links: 
+      - mongo
+
+  mongo:
+    image: mongo
+    ports:
+      - 27017:27017

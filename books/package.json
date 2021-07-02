@@ -3,7 +3,7 @@
   "version": "0.0.0",
   "private": true,
   "scripts": {
-    "start": "nodemon ./app.js localhost 8000"
+    "start": "node app.js"
   },
   "dependencies": {
     "cookie-parser": "~1.4.4",
@@ -13,6 +13,7 @@
     "jade": "~1.11.0",
     "mongoose": "^5.12.15",
     "morgan": "~1.9.1",
-    "node-fetch": "^2.6.1"
+    "node-fetch": "^2.6.1",
+    "nodemon": "^2.0.9"
   }
 }
