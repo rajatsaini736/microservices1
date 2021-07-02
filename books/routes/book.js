@@ -4,15 +4,15 @@ const Book = require('../models/book');
 
 router.get('/book/:id', async (req, res) => {
     let bookId = req.params.id;
-    let response = await Book.findById(bookId);
+    let response = await Book.findById(bookId).lean();
 
     if (!response) response = "book not found";
     res.send(response);
 });
 
 router.get('/books', async (req, res) => {
-    let response = await Book.find();
-    if (!response) response = "no book is there";
+    let response = await Book.find().lean();
+    if (!response.length) response = "no book is there";
     res.send(response);
 });
 

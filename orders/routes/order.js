@@ -4,30 +4,40 @@ const ORDER = require('../models/order');
 const fetch = require('node-fetch');
 
 router.get('/orders', async (req, res) => {
-    let response = await ORDER.find();
+    let response = await ORDER.find().lean();
 
-    if (!response) response = "no orders found";
+    if (!response.length) response = "no orders found";
     res.send(response);
 });
 
 router.get('/order/:id', async (req, res) => {
     let orderId = req.params.id;
-    let reponse;
-    response = await ORDER.findById(orderId).lean();
-
-    if (!response) response = "no order found";
+    let response = await ORDER.findById(orderId).lean();
+    if (!response) {
+        response = "no order found";
+        res.send(response);
+    };
 
     let bookId = response.bookId;
     let customerId = response.customerId;
 
     let bookResObj = await fetch(`http://localhost:8000/book/${bookId}`);
-    bookResObj = await bookResObj.json();
-    response = Object.assign({}, response, { book: Object.entries(bookResObj).length ? bookResObj.title : null});
+    try{
+        bookResObj = await bookResObj.json();        
+    } catch(err) {
+        console.log(err);
+        bookResObj = null
+    }
+    response = Object.assign({}, response, { book: bookResObj ? bookResObj.title : null});
 
     let customerObj = await fetch(`http://localhost:4000/customer/${customerId}`);
-    customerObj = await customerObj.json();
-    response = Object.assign({}, response, { cutomer: Object.entries(customerObj).length ? customerObj.name : null});
-    console.log(response);
+    try{
+        customerObj = await customerObj.json();
+    } catch(err) {
+        console.log(err);
+        customerObj = null;
+    }
+    response = Object.assign({}, response, { cutomer: customerObj ? customerObj.name : null});
     res.send(response);
 });
 
@@ -41,7 +51,6 @@ router.post('/neworder', async (req, res) => {
 router.delete('/order/:id', async (req, res) => {
     let orderId = req.params.id;
     let response = await ORDER.deleteOne({_id: orderId});
-    const fetch = require('node-fetch'); 
 
     res.send(response);
 });

@@ -3,14 +3,14 @@ const router = express.Router();
 const CUSTOMER = require('../models/customer');
 
 router.get('/customers', async (req, res) => {
-    let response = await CUSTOMER.find();
-    if (!response) response = "no customer found";
+    let response = await CUSTOMER.find().lean();
+    if (!response.length) response = "no customer found";
     res.send(response);
 });
 
 router.get('/customer/:id', async (req, res) => {
     let customerId = req.params.id;
-    let response = await CUSTOMER.findById(customerId);
+    let response = await CUSTOMER.findById(customerId).lean();
     if (!response) response = "no customer found";
     res.send(response);
 });
