@@ -1,19 +1,46 @@
 version: '3.4'
 
 services:
-  books:
+  mongo: 
+    image: mongo
+    ports: 
+      - 27017:27017
+  orderservice:
+    image: orders
+    build:
+      context: orders
+      dockerfile: ./Dockerfile
+    environment:
+      NODE_ENV: development
+    ports:
+      - 5000:5000
+    links: 
+      - mongo
+  customerservice:
+    image: customers
+    build:
+      context: customers
+      dockerfile: ./Dockerfile
+    environment: 
+      NODE_ENV: development
+    ports:
+      - 4000:4000
+    links:
+      - mongo
+  bookservice:
     image: books
     build:
       context: books
       dockerfile: ./Dockerfile
     environment:
-      NODE_ENV: production
+      NODE_ENV: development
     ports:
       - 8000:8000
-    links: 
+    links:
       - mongo
-
-  mongo:
-    image: mongo
+  nginx:
+    restart: always
+    build: 
+      context: ./nginx
     ports:
-      - 27017:27017
+      - "8080:8080"

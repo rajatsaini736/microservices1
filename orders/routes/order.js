@@ -21,7 +21,7 @@ router.get('/order/:id', async (req, res) => {
     let bookId = response.bookId;
     let customerId = response.customerId;
 
-    let bookResObj = await fetch(`http://localhost:8000/book/${bookId}`);
+    let bookResObj = await fetch(`http://localhost:8000/bookmicroservice/book/${bookId}`);
     try{
         bookResObj = await bookResObj.json();        
     } catch(err) {
@@ -30,7 +30,7 @@ router.get('/order/:id', async (req, res) => {
     }
     response = Object.assign({}, response, { book: bookResObj ? bookResObj.title : null});
 
-    let customerObj = await fetch(`http://localhost:4000/customer/${customerId}`);
+    let customerObj = await fetch(`http://localhost:4000/customermicroservice/customer/${customerId}`);
     try{
         customerObj = await customerObj.json();
     } catch(err) {
