@@ -3,6 +3,10 @@ const router = express.Router();
 const ORDER = require('../models/order');
 const fetch = require('node-fetch');
 
+router.get('', (req, res) => {
+    res.send('Order microservice is live');
+});
+
 router.get('/orders', async (req, res) => {
     let response = await ORDER.find().lean();
 
@@ -21,7 +25,7 @@ router.get('/order/:id', async (req, res) => {
     let bookId = response.bookId;
     let customerId = response.customerId;
 
-    let bookResObj = await fetch(`http://localhost:8000/bookmicroservice/book/${bookId}`);
+    let bookResObj = await fetch(`http://localhost:8000/bookservice/book/${bookId}`);
     try{
         bookResObj = await bookResObj.json();        
     } catch(err) {
@@ -30,7 +34,7 @@ router.get('/order/:id', async (req, res) => {
     }
     response = Object.assign({}, response, { book: bookResObj ? bookResObj.title : null});
 
-    let customerObj = await fetch(`http://localhost:4000/customermicroservice/customer/${customerId}`);
+    let customerObj = await fetch(`http://localhost:4000/customerservice/customer/${customerId}`);
     try{
         customerObj = await customerObj.json();
     } catch(err) {

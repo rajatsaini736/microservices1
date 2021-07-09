@@ -2,6 +2,10 @@ const express = require('express');
 const router = express.Router();
 const CUSTOMER = require('../models/customer');
 
+router.get('', (req, res) => {
+    res.send('Customer microservice is live');
+});
+
 router.get('/customers', async (req, res) => {
     let response = await CUSTOMER.find().lean();
     if (!response.length) response = "no customer found";

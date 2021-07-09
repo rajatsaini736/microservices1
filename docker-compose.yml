@@ -1,12 +1,25 @@
 version: '3.4'
 
 services:
+  nginx:
+    image: nginx
+    container_name: nginx
+    depends_on:
+      - orderservice
+      - customerservice
+      - bookservice
+    volumes:
+      - ./nginx/default.conf:/etc/nginx/nginx.conf
+    restart: always
+    ports:
+      - "8080:8080"
   mongo: 
     image: mongo
     ports: 
       - 27017:27017
   orderservice:
-    image: orders
+    image: orderservice
+    container_name: orderservice
     build:
       context: orders
       dockerfile: ./Dockerfile
@@ -17,7 +30,8 @@ services:
     links: 
       - mongo
   customerservice:
-    image: customers
+    image: customerservice
+    container_name: customerservice
     build:
       context: customers
       dockerfile: ./Dockerfile
@@ -28,7 +42,8 @@ services:
     links:
       - mongo
   bookservice:
-    image: books
+    image: bookservice
+    container_name: bookservice
     build:
       context: books
       dockerfile: ./Dockerfile
@@ -38,9 +53,3 @@ services:
       - 8000:8000
     links:
       - mongo
-  nginx:
-    restart: always
-    build: 
-      context: ./nginx
-    ports:
-      - "8080:8080"
