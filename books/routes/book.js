@@ -2,6 +2,10 @@ const express = require('express');
 const router = express.Router();
 const Book = require('../models/book');
 
+router.get('', (req, res) => {
+    res.send("Book microservice is running");
+});
+
 router.get('/book/:id', async (req, res) => {
     let bookId = req.params.id;
     let response = await Book.findById(bookId).lean();
