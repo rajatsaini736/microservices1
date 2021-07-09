@@ -20,6 +20,7 @@ router.get('/order/:id', async (req, res) => {
     if (!response) {
         response = "no order found";
         res.send(response);
+        return;
     };
 
     let bookId = response.bookId;
