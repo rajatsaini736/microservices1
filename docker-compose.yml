@@ -1,18 +1,6 @@
 version: '3.4'
 
 services:
-  nginx:
-    image: nginx
-    container_name: nginx
-    depends_on:
-      - orderservice
-      - customerservice
-      - bookservice
-    volumes:
-      - ./nginx/default.conf:/etc/nginx/nginx.conf
-    restart: always
-    ports:
-      - "8080:8080"
   mongo: 
     image: mongo
     ports: 
@@ -29,6 +17,9 @@ services:
       - 5000:5000
     links: 
       - mongo
+      - customerservice
+      - bookservice
+
   customerservice:
     image: customerservice
     container_name: customerservice
@@ -41,6 +32,7 @@ services:
       - 4000:4000
     links:
       - mongo
+
   bookservice:
     image: bookservice
     container_name: bookservice
@@ -53,3 +45,4 @@ services:
       - 8000:8000
     links:
       - mongo
+
