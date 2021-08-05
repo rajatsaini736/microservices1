@@ -6,5 +6,5 @@
 
 -> Docker & Docker-Compose
 
--> NGINX & Reverse Proxy as an API Gateway
+-> NGINX & Reverse Proxy as an API Gateway with Load Balancing ( 4 Algos )
 
