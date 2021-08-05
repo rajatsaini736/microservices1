@@ -2,7 +2,7 @@
 
 -> NodeJS, ExpressJS, MongoDB
 
--> Microservice Architechture
+-> Microservice Architecture
 
 -> Docker & Docker-Compose
 
